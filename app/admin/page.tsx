@@ -202,6 +202,101 @@ export default function AdminPage() {
     }
   };
 
+  const handleDeleteProjectType = async (id: string, displayName: string) => {
+    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete all associated surfaces, scenarios, and outputs.`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/project-types?id=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadData();
+      } else {
+        alert("Error deleting project type");
+      }
+    } catch (error) {
+      console.error("Error deleting project type:", error);
+      alert("Error deleting project type");
+    }
+  };
+
+  const handleDeleteSurface = async (id: string, displayName: string) => {
+    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete all associated scenarios and outputs.`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/surfaces?id=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadData();
+      } else {
+        alert("Error deleting surface");
+      }
+    } catch (error) {
+      console.error("Error deleting surface:", error);
+      alert("Error deleting surface");
+    }
+  };
+
+  const handleDeleteScenario = async (id: string, displayName: string) => {
+    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete the associated output.`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/scenarios?id=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadData();
+      } else {
+        alert("Error deleting scenario");
+      }
+    } catch (error) {
+      console.error("Error deleting scenario:", error);
+      alert("Error deleting scenario");
+    }
+  };
+
+  const handleDeleteOutput = async (id: string, scenarioName: string) => {
+    if (!confirm(`Are you sure you want to delete the output for "${scenarioName}"?`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/outputs?id=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadData();
+      } else {
+        alert("Error deleting output");
+      }
+    } catch (error) {
+      console.error("Error deleting output:", error);
+      alert("Error deleting output");
+    }
+  };
+
+  const handleDeleteMaterial = async (id: string, displayName: string) => {
+    if (!confirm(`Are you sure you want to delete "${displayName}"?`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/materials?id=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadData();
+      } else {
+        alert("Error deleting material");
+      }
+    } catch (error) {
+      console.error("Error deleting material:", error);
+      alert("Error deleting material");
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -341,10 +436,18 @@ export default function AdminPage() {
               {projectTypes.map((pt) => (
                 <div
                   key={pt.id}
-                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50"
+                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
-                  <div className="font-medium text-base">{pt.displayName}</div>
-                  <div className="text-sm text-gray-500 mt-1">{pt.name}</div>
+                  <div>
+                    <div className="font-medium text-base">{pt.displayName}</div>
+                    <div className="text-sm text-gray-500 mt-1">{pt.name}</div>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteProjectType(pt.id, pt.displayName)}
+                    className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
@@ -449,10 +552,18 @@ export default function AdminPage() {
               {surfaces.map((s) => (
                 <div
                   key={s.id}
-                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50"
+                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
-                  <div className="font-medium text-base">{s.displayName}</div>
-                  <div className="text-sm text-gray-500 mt-1">{s.name}</div>
+                  <div>
+                    <div className="font-medium text-base">{s.displayName}</div>
+                    <div className="text-sm text-gray-500 mt-1">{s.name}</div>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteSurface(s.id, s.displayName)}
+                    className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
@@ -579,10 +690,18 @@ export default function AdminPage() {
               {scenarios.map((sc) => (
                 <div
                   key={sc.id}
-                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50"
+                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
-                  <div className="font-medium text-base">{sc.displayName}</div>
-                  <div className="text-sm text-gray-500 mt-1">{sc.name}</div>
+                  <div>
+                    <div className="font-medium text-base">{sc.displayName}</div>
+                    <div className="text-sm text-gray-500 mt-1">{sc.name}</div>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteScenario(sc.id, sc.displayName)}
+                    className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
@@ -711,14 +830,22 @@ export default function AdminPage() {
                 return (
                   <div
                     key={o.id}
-                    className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50"
+                    className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                   >
-                    <div className="font-medium text-base">
-                      {scenario?.displayName || o.scenarioId}
+                    <div>
+                      <div className="font-medium text-base">
+                        {scenario?.displayName || o.scenarioId}
+                      </div>
+                      <div className="text-sm text-gray-600 mt-1">
+                        {o.outputValue} {o.outputUnit} per day
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      {o.outputValue} {o.outputUnit} per day
-                    </div>
+                    <button
+                      onClick={() => handleDeleteOutput(o.id, scenario?.displayName || o.scenarioId)}
+                      className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
+                    >
+                      Delete
+                    </button>
                   </div>
                 );
               })}
@@ -814,13 +941,21 @@ export default function AdminPage() {
               {materials.map((m) => (
                 <div
                   key={m.id}
-                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50"
+                  className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
-                  <div className="font-medium text-base">{m.displayName}</div>
-                  <div className="text-sm text-gray-500 mt-1">
-                    {m.name} • {m.unit}
-                    {m.costPerUnit && ` • $${m.costPerUnit.toFixed(2)}`}
+                  <div>
+                    <div className="font-medium text-base">{m.displayName}</div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      {m.name} • {m.unit}
+                      {m.costPerUnit && ` • $${m.costPerUnit.toFixed(2)}`}
+                    </div>
                   </div>
+                  <button
+                    onClick={() => handleDeleteMaterial(m.id, m.displayName)}
+                    className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>

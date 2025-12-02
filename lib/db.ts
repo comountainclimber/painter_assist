@@ -86,6 +86,25 @@ export async function createProjectType(
   return projectType;
 }
 
+export async function deleteProjectType(id: string): Promise<boolean> {
+  if (USE_POSTGRES) {
+    try {
+      const { rowCount } = await sql.query(
+        "DELETE FROM project_types WHERE id = $1",
+        [id]
+      );
+      return (rowCount ?? 0) > 0;
+    } catch (error) {
+      console.error("Error deleting project type:", error);
+      throw error;
+    }
+  }
+  const index = inMemoryData.projectTypes.findIndex((pt) => pt.id === id);
+  if (index === -1) return false;
+  inMemoryData.projectTypes.splice(index, 1);
+  return true;
+}
+
 // Surfaces
 export async function getSurfacesByProjectType(
   projectTypeId: string
@@ -140,6 +159,25 @@ export async function createSurface(
   return surface;
 }
 
+export async function deleteSurface(id: string): Promise<boolean> {
+  if (USE_POSTGRES) {
+    try {
+      const { rowCount } = await sql.query(
+        "DELETE FROM surfaces WHERE id = $1",
+        [id]
+      );
+      return (rowCount ?? 0) > 0;
+    } catch (error) {
+      console.error("Error deleting surface:", error);
+      throw error;
+    }
+  }
+  const index = inMemoryData.surfaces.findIndex((s) => s.id === id);
+  if (index === -1) return false;
+  inMemoryData.surfaces.splice(index, 1);
+  return true;
+}
+
 // Scenarios
 export async function getScenariosBySurface(
   surfaceId: string
@@ -192,6 +230,25 @@ export async function createScenario(
   }
 
   return scenario;
+}
+
+export async function deleteScenario(id: string): Promise<boolean> {
+  if (USE_POSTGRES) {
+    try {
+      const { rowCount } = await sql.query(
+        "DELETE FROM scenarios WHERE id = $1",
+        [id]
+      );
+      return (rowCount ?? 0) > 0;
+    } catch (error) {
+      console.error("Error deleting scenario:", error);
+      throw error;
+    }
+  }
+  const index = inMemoryData.scenarios.findIndex((s) => s.id === id);
+  if (index === -1) return false;
+  inMemoryData.scenarios.splice(index, 1);
+  return true;
 }
 
 // Outputs
@@ -268,6 +325,25 @@ export async function createOrUpdateOutput(
   return output;
 }
 
+export async function deleteOutput(id: string): Promise<boolean> {
+  if (USE_POSTGRES) {
+    try {
+      const { rowCount } = await sql.query(
+        "DELETE FROM outputs WHERE id = $1",
+        [id]
+      );
+      return (rowCount ?? 0) > 0;
+    } catch (error) {
+      console.error("Error deleting output:", error);
+      throw error;
+    }
+  }
+  const index = inMemoryData.outputs.findIndex((o) => o.id === id);
+  if (index === -1) return false;
+  inMemoryData.outputs.splice(index, 1);
+  return true;
+}
+
 // Materials
 export async function getAllMaterials(): Promise<Material[]> {
   if (USE_POSTGRES) {
@@ -316,6 +392,25 @@ export async function createMaterial(
   }
 
   return material;
+}
+
+export async function deleteMaterial(id: string): Promise<boolean> {
+  if (USE_POSTGRES) {
+    try {
+      const { rowCount } = await sql.query(
+        "DELETE FROM materials WHERE id = $1",
+        [id]
+      );
+      return (rowCount ?? 0) > 0;
+    } catch (error) {
+      console.error("Error deleting material:", error);
+      throw error;
+    }
+  }
+  const index = inMemoryData.materials.findIndex((m) => m.id === id);
+  if (index === -1) return false;
+  inMemoryData.materials.splice(index, 1);
+  return true;
 }
 
 // Estimates

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getOutputByScenario, createOrUpdateOutput } from "@/lib/db";
+import { getOutputByScenario, createOrUpdateOutput, deleteOutput } from "@/lib/db";
 
 export async function GET(request: Request) {
   try {
@@ -51,3 +51,32 @@ export async function POST(request: Request) {
   }
 }
 
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deleted = await deleteOutput(id);
+    if (!deleted) {
+      return NextResponse.json(
+        { error: "Output not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting output:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
