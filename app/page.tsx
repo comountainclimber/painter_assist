@@ -247,7 +247,9 @@ export default function HomePage() {
         <div className="px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-gray-900">Painter Assist</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Painter Assist
+              </h1>
               {/* Beautiful Rainbow Gradient */}
               <div className="w-full mt-1 h-3 rounded-full overflow-hidden shadow-lg">
                 <div
