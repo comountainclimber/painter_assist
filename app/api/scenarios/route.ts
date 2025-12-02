@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { getScenariosBySurface, createScenario, deleteScenario } from "@/lib/db";
+import {
+  getScenariosBySurface,
+  createScenario,
+  deleteScenario,
+} from "@/lib/db";
 
 export async function GET(request: Request) {
   try {
@@ -53,10 +57,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
     const deleted = await deleteScenario(id);

@@ -48,7 +48,9 @@ function generateId(): string {
 export async function getAllProjectTypes(): Promise<ProjectType[]> {
   if (USE_POSTGRES) {
     try {
-      const { rows } = await sql.query("SELECT * FROM project_types ORDER BY display_name");
+      const { rows } = await sql.query(
+        "SELECT * FROM project_types ORDER BY display_name"
+      );
       return rows.map(rowToProjectType);
     } catch (error) {
       console.error("Error fetching project types:", error);
@@ -73,7 +75,13 @@ export async function createProjectType(
     try {
       await sql.query(
         "INSERT INTO project_types (id, name, display_name, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)",
-        [projectType.id, projectType.name, projectType.displayName, projectType.createdAt, projectType.updatedAt]
+        [
+          projectType.id,
+          projectType.name,
+          projectType.displayName,
+          projectType.createdAt,
+          projectType.updatedAt,
+        ]
       );
     } catch (error) {
       console.error("Error creating project type:", error);
@@ -274,7 +282,7 @@ export async function createOrUpdateOutput(
   data: Omit<Output, "id" | "createdAt" | "updatedAt">
 ): Promise<Output> {
   const now = new Date().toISOString();
-  
+
   if (USE_POSTGRES) {
     try {
       // Try to update first
@@ -282,11 +290,11 @@ export async function createOrUpdateOutput(
         "UPDATE outputs SET output_value = $1, output_unit = $2, updated_at = $3 WHERE scenario_id = $4 RETURNING *",
         [data.outputValue, data.outputUnit, now, data.scenarioId]
       );
-      
+
       if (rows.length > 0) {
         return rowToOutput(rows[0]);
       }
-      
+
       // Insert if doesn't exist
       const output: Output = {
         id: generateId(),
@@ -294,27 +302,36 @@ export async function createOrUpdateOutput(
         createdAt: now,
         updatedAt: now,
       };
-      
+
       await sql.query(
         "INSERT INTO outputs (id, scenario_id, output_value, output_unit, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)",
-        [output.id, output.scenarioId, output.outputValue, output.outputUnit, output.createdAt, output.updatedAt]
+        [
+          output.id,
+          output.scenarioId,
+          output.outputValue,
+          output.outputUnit,
+          output.createdAt,
+          output.updatedAt,
+        ]
       );
-      
+
       return output;
     } catch (error) {
       console.error("Error creating/updating output:", error);
       throw error;
     }
   }
-  
-  const existing = inMemoryData.outputs.find((o) => o.scenarioId === data.scenarioId);
+
+  const existing = inMemoryData.outputs.find(
+    (o) => o.scenarioId === data.scenarioId
+  );
   if (existing) {
     existing.outputValue = data.outputValue;
     existing.outputUnit = data.outputUnit;
     existing.updatedAt = now;
     return existing;
   }
-  
+
   const output: Output = {
     id: generateId(),
     ...data,
@@ -348,7 +365,9 @@ export async function deleteOutput(id: string): Promise<boolean> {
 export async function getAllMaterials(): Promise<Material[]> {
   if (USE_POSTGRES) {
     try {
-      const { rows } = await sql.query("SELECT * FROM materials ORDER BY display_name");
+      const { rows } = await sql.query(
+        "SELECT * FROM materials ORDER BY display_name"
+      );
       return rows.map(rowToMaterial);
     } catch (error) {
       console.error("Error fetching materials:", error);
@@ -417,7 +436,9 @@ export async function deleteMaterial(id: string): Promise<boolean> {
 export async function getAllEstimates(): Promise<Estimate[]> {
   if (USE_POSTGRES) {
     try {
-      const { rows } = await sql.query("SELECT * FROM estimates ORDER BY created_at DESC");
+      const { rows } = await sql.query(
+        "SELECT * FROM estimates ORDER BY created_at DESC"
+      );
       return rows.map(rowToEstimate);
     } catch (error) {
       console.error("Error fetching estimates:", error);
@@ -427,7 +448,9 @@ export async function getAllEstimates(): Promise<Estimate[]> {
   return [...inMemoryData.estimates];
 }
 
-export async function getEstimateById(id: string): Promise<EstimateWithItems | null> {
+export async function getEstimateById(
+  id: string
+): Promise<EstimateWithItems | null> {
   if (USE_POSTGRES) {
     try {
       const { rows: estimateRows } = await sql.query(
@@ -501,7 +524,9 @@ export async function getEstimateById(id: string): Promise<EstimateWithItems | n
             name: row.name,
             displayName: row.display_name,
             unit: row.unit,
-            costPerUnit: row.cost_per_unit ? parseFloat(row.cost_per_unit) : null,
+            costPerUnit: row.cost_per_unit
+              ? parseFloat(row.cost_per_unit)
+              : null,
           } as Material,
         }));
       }
@@ -524,7 +549,9 @@ export async function getEstimateById(id: string): Promise<EstimateWithItems | n
         .filter((m) => m.estimateItemId === item.id)
         .map((m) => ({
           ...m,
-          material: inMemoryData.materials.find((mat) => mat.id === m.materialId),
+          material: inMemoryData.materials.find(
+            (mat) => mat.id === m.materialId
+          ),
         })),
     }));
 
@@ -622,7 +649,13 @@ export async function addMaterialToEstimateItem(
     try {
       await sql.query(
         "INSERT INTO estimate_item_materials (id, estimate_item_id, material_id, quantity, created_at) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (estimate_item_id, material_id) DO UPDATE SET quantity = $4",
-        [eim.id, eim.estimateItemId, eim.materialId, eim.quantity, eim.createdAt]
+        [
+          eim.id,
+          eim.estimateItemId,
+          eim.materialId,
+          eim.quantity,
+          eim.createdAt,
+        ]
       );
     } catch (error) {
       console.error("Error adding material to estimate item:", error);
@@ -723,4 +756,3 @@ function rowToEstimateItem(row: any): EstimateItem {
     updatedAt: row.updated_at,
   };
 }
-

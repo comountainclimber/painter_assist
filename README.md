@@ -63,7 +63,19 @@ ADMIN_PASSWORD=your_admin_password
    - In your Vercel dashboard, go to your database
    - Run the SQL from `schema.sql` in the SQL editor
 
-6. Start the development server:
+6. (Optional) Seed the database with initial data:
+
+   **Option A: Using SQL (Recommended for Vercel)**
+   - In your Vercel dashboard, go to your database SQL editor
+   - Run the SQL from `scripts/seed.sql`
+
+   **Option B: Using TypeScript script (Local development)**
+   ```bash
+   pnpm seed
+   ```
+   Note: Make sure your `.env.local` has `POSTGRES_URL` set
+
+7. Start the development server:
 
 ```bash
 pnpm dev

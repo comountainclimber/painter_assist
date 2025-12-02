@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { getAllProjectTypes, createProjectType, deleteProjectType } from "@/lib/db";
+import {
+  getAllProjectTypes,
+  createProjectType,
+  deleteProjectType,
+} from "@/lib/db";
 
 export async function GET() {
   try {
@@ -43,10 +47,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
     const deleted = await deleteProjectType(id);
@@ -66,4 +67,3 @@ export async function DELETE(request: Request) {
     );
   }
 }
-

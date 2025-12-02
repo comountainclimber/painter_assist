@@ -203,7 +203,11 @@ export default function AdminPage() {
   };
 
   const handleDeleteProjectType = async (id: string, displayName: string) => {
-    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete all associated surfaces, scenarios, and outputs.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete "${displayName}"? This will also delete all associated surfaces, scenarios, and outputs.`
+      )
+    ) {
       return;
     }
     try {
@@ -222,7 +226,11 @@ export default function AdminPage() {
   };
 
   const handleDeleteSurface = async (id: string, displayName: string) => {
-    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete all associated scenarios and outputs.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete "${displayName}"? This will also delete all associated scenarios and outputs.`
+      )
+    ) {
       return;
     }
     try {
@@ -241,7 +249,11 @@ export default function AdminPage() {
   };
 
   const handleDeleteScenario = async (id: string, displayName: string) => {
-    if (!confirm(`Are you sure you want to delete "${displayName}"? This will also delete the associated output.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete "${displayName}"? This will also delete the associated output.`
+      )
+    ) {
       return;
     }
     try {
@@ -260,7 +272,11 @@ export default function AdminPage() {
   };
 
   const handleDeleteOutput = async (id: string, scenarioName: string) => {
-    if (!confirm(`Are you sure you want to delete the output for "${scenarioName}"?`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete the output for "${scenarioName}"?`
+      )
+    ) {
       return;
     }
     try {
@@ -439,11 +455,15 @@ export default function AdminPage() {
                   className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
                   <div>
-                    <div className="font-medium text-base">{pt.displayName}</div>
+                    <div className="font-medium text-base">
+                      {pt.displayName}
+                    </div>
                     <div className="text-sm text-gray-500 mt-1">{pt.name}</div>
                   </div>
                   <button
-                    onClick={() => handleDeleteProjectType(pt.id, pt.displayName)}
+                    onClick={() =>
+                      handleDeleteProjectType(pt.id, pt.displayName)
+                    }
                     className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
                   >
                     Delete
@@ -693,7 +713,9 @@ export default function AdminPage() {
                   className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 flex items-center justify-between"
                 >
                   <div>
-                    <div className="font-medium text-base">{sc.displayName}</div>
+                    <div className="font-medium text-base">
+                      {sc.displayName}
+                    </div>
                     <div className="text-sm text-gray-500 mt-1">{sc.name}</div>
                   </div>
                   <button
@@ -841,7 +863,12 @@ export default function AdminPage() {
                       </div>
                     </div>
                     <button
-                      onClick={() => handleDeleteOutput(o.id, scenario?.displayName || o.scenarioId)}
+                      onClick={() =>
+                        handleDeleteOutput(
+                          o.id,
+                          scenario?.displayName || o.scenarioId
+                        )
+                      }
                       className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium active:bg-red-700 touch-manipulation ml-4"
                     >
                       Delete
