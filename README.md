@@ -17,29 +17,38 @@ A professional painting estimation tool for creating standardized project estima
 
 - Node.js 18+
 - A Vercel account (for database)
-- pnpm (recommended)
+- pnpm (required)
 
 ### Installation
 
 1. Install pnpm if you haven't already:
 
 ```bash
+# Using npm (if you have npm installed)
 npm install -g pnpm
+
+# Or using Homebrew (macOS)
+brew install pnpm
+
+# Or using the standalone script
+curl -fsSL https://get.pnpm.io/install.sh | sh -
 ```
 
 2. Clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/comountainclimber/painter_assist.git
+cd painter_assist
 pnpm install
 ```
 
-2. Set up Vercel Postgres:
+3. Set up Vercel Postgres:
 
    - Go to your Vercel dashboard
    - Create a new Postgres database
    - Copy the connection strings
 
-3. Set up environment variables:
+4. Set up environment variables:
 
 Create a `.env.local` file:
 
@@ -49,12 +58,12 @@ POSTGRES_URL_NON_POOLING=your_postgres_url_non_pooling
 ADMIN_PASSWORD=your_admin_password
 ```
 
-4. Run the database schema:
+5. Run the database schema:
 
    - In your Vercel dashboard, go to your database
    - Run the SQL from `schema.sql` in the SQL editor
 
-5. Start the development server:
+6. Start the development server:
 
 ```bash
 pnpm dev
