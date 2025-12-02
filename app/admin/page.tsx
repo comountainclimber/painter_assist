@@ -364,8 +364,19 @@ export default function AdminPage() {
       {/* Sticky Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
         <div className="px-4 py-3">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-2 gap-3">
             <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
+            {/* Beautiful Rainbow Gradient */}
+            <div className="flex-1 mx-4 h-8 rounded-full overflow-hidden shadow-lg">
+              <div 
+                className="w-full h-full animate-pulse"
+                style={{
+                  background: 'linear-gradient(90deg, #ff0000 0%, #ff7f00 14.28%, #ffff00 28.56%, #00ff00 42.84%, #0000ff 57.12%, #4b0082 71.4%, #9400d3 85.68%, #ff0000 100%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'rainbow-slide 3s linear infinite'
+                }}
+              />
+            </div>
             <Link
               href="/"
               className="px-4 py-2 bg-gray-600 text-white rounded-lg text-sm font-medium active:bg-gray-700 touch-manipulation"

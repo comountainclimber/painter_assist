@@ -1,13 +1,22 @@
 /**
  * Seed script to populate the database with initial data from the Excel template
- * Run with: pnpm tsx scripts/seed.ts
- * Or: ts-node scripts/seed.ts
+ * Run with: pnpm seed
+ * 
+ * Make sure you have POSTGRES_URL set in your .env.local file
+ * You can pull env vars from Vercel with: pnpm vercel:env:pull
  */
 
 import { sql } from "@vercel/postgres";
+import * as dotenv from "dotenv";
 
+// Load environment variables from .env.local
+dotenv.config({ path: ".env.local" });
+
+// Check for POSTGRES_URL, POSTGRES_URL_NON_POOLING, or DATABASE_URL
 const USE_POSTGRES =
-  process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING;
+  process.env.POSTGRES_URL ||
+  process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.DATABASE_URL;
 
 function generateId(): string {
   return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -140,7 +149,14 @@ const seedData = {
 
 async function seed() {
   if (!USE_POSTGRES) {
-    console.error("Error: POSTGRES_URL not set. Cannot seed database.");
+    console.error("❌ Error: POSTGRES_URL or POSTGRES_URL_NON_POOLING not set.");
+    console.error("\nTo fix this:");
+    console.error("1. Make sure you've set up your Vercel Postgres database");
+    console.error("2. Pull environment variables from Vercel:");
+    console.error("   pnpm vercel:env:pull");
+    console.error("3. Or manually add POSTGRES_URL to your .env.local file");
+    console.error("\nYou can get the connection string from:");
+    console.error("  Vercel Dashboard → Your Project → Storage → Your Database → Connection String");
     process.exit(1);
   }
 
