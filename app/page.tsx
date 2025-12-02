@@ -249,7 +249,7 @@ export default function HomePage() {
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold text-gray-900">Painter Assist</h1>
               {/* Beautiful Rainbow Gradient */}
-              <div className="w-32 mt-1 h-3 rounded-full overflow-hidden shadow-lg">
+              <div className="w-full mt-1 h-3 rounded-full overflow-hidden shadow-lg">
                 <div
                   className="w-full h-full animate-pulse"
                   style={{
