@@ -364,19 +364,21 @@ export default function AdminPage() {
       {/* Sticky Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
         <div className="px-4 py-3">
-          <div className="flex items-center justify-between mb-2 gap-3">
-            <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
-            {/* Beautiful Rainbow Gradient */}
-            <div className="w-24 mx-2 h-3 rounded-full overflow-hidden shadow-lg">
-              <div
-                className="w-full h-full animate-pulse"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #ff0000 0%, #ff7f00 14.28%, #ffff00 28.56%, #00ff00 42.84%, #0000ff 57.12%, #4b0082 71.4%, #9400d3 85.68%, #ff0000 100%)",
-                  backgroundSize: "200% 100%",
-                  animation: "rainbow-slide 3s linear infinite",
-                }}
-              />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-col">
+              <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
+              {/* Beautiful Rainbow Gradient */}
+              <div className="w-32 mt-1 h-3 rounded-full overflow-hidden shadow-lg">
+                <div
+                  className="w-full h-full animate-pulse"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #ff0000 0%, #ff7f00 14.28%, #ffff00 28.56%, #00ff00 42.84%, #0000ff 57.12%, #4b0082 71.4%, #9400d3 85.68%, #ff0000 100%)",
+                    backgroundSize: "200% 100%",
+                    animation: "rainbow-slide 3s linear infinite",
+                  }}
+                />
+              </div>
             </div>
             <Link
               href="/"
